@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urbano Express - Simulación E-commerce</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .card h2 {
+            color: #333;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .items-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .item-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 10px;
+            align-items: end;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .response-container {
+            max-height: 400px;
+            overflow-y: auto;
+            background: #1a1a1a;
+            color: #00ff88;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚚 Urbano Express</h1>
+            <p>Simulador de Integración E-commerce - Sistema de Gestión de Envíos</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Formulario de creación de pedido -->
+            <div class="card">
+                <h2>📦 Crear Nuevo Pedido</h2>
+                
+                <div id="alert" class="alert"></div>
+                
+                <form id="orderForm">
+                    <div class="form-group">
+                        <label for="order_id">ID del Pedido *</label>
+                        <input type="text" id="order_id" name="order_id" 
+                               placeholder="ORD-2024-001" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="customer_name">Nombre del Cliente *</label>
+                            <input type="text" id="customer_name" name="customer_name" 
+                                   placeholder="Juan Pérez" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer_email">Email *</label>
+                            <input type="email" id="customer_email" name="customer_email" 
+                                   placeholder="juan@example.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customer_phone">Teléfono</label>
+                        <input type="tel" id="customer_phone" name="customer_phone" 
+                               placeholder="+5491123456789">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shipping_address">Dirección de Envío *</label>
+                        <input type="text" id="shipping_address" name="shipping_address" 
+                               placeholder="Calle Falsa 123" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shipping_city">Ciudad *</label>
+                            <input type="text" id="shipping_city" name="shipping_city" 
+                                   placeholder="Buenos Aires" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shipping_state">Provincia/Estado *</label>
+                            <input type="text" id="shipping_state" name="shipping_state" 
+                                   placeholder="CABA" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shipping_zip">Código Postal *</label>
+                            <input type="text" id="shipping_zip" name="shipping_zip" 
+                                   placeholder="C1405" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shipping_country">País *</label>
+                            <input type="text" id="shipping_country" name="shipping_country" 
+                                   placeholder="Argentina" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="total_amount">Monto Total *</label>
+                            <input type="number" id="total_amount" name="total_amount" 
+                                   step="0.01" min="0" placeholder="99.99" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="currency">Moneda *</label>
+                            <input type="text" id="currency" name="currency" 
+                                   value="USD" maxlength="3" required>
+                        </div>
+                    </div>
+
+                    <!-- Sección de Items del Pedido -->
+                    <div class="items-section">
+                        <h3>🛍️ Items del Pedido</h3>
+                        <div id="itemsContainer">
+                            <div class="item-row">
+                                <div>
+                                    <label>Producto</label>
+                                    <input type="text" name="items[0][name]" 
+                                           placeholder="Nombre del producto" required>
+                                </div>
+                                <div>
+                                    <label>Cantidad</label>
+                                    <input type="number" name="items[0][quantity]" 
+                                           min="1" value="1" required>
+                                </div>
+                                <div>
+                                    <label>Precio (USD)</label>
+                                    <input type="number" name="items[0][price]" 
+                                           step="0.01" min="0" placeholder="19.99" required>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-secondary btn-sm" 
+                                onclick="addItem()">+ Agregar Item</button>
+                    </div>
+
+                    <div style="margin-top: 30px; text-align: center;">
+                        <button type="submit" class="btn" style="width: 100%;">
+                            📨 Enviar Pedido a Urbano Express
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Panel de respuesta y consultas -->
+            <div class="card">
+                <h2>📊 Respuesta del Sistema</h2>
+                
+                <div class="form-group">
+                    <label>Respuesta JSON:</label>
+                    <div id="responseContainer" class="response-container">
+                        {/* La respuesta aparecerá aquí */}
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <h3>🔍 Consultar Pedidos</h3>
+                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                        <button class="btn" onclick="getAllOrders()">
+                            Ver Todos los Pedidos
+                        </button>
+                        <button class="btn btn-secondary" onclick="testConnection()">
+                            Probar Conexión API
+                        </button>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <h3>📄 Datos de Prueba</h3>
+                    <button class="btn btn-secondary" onclick="loadSampleData()">
+                        Cargar Datos de Ejemplo
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; color: white; opacity: 0.8;">
+            <p>Challenge Técnico - Desarrollador PHP Full Stack | Integraciones Urbano Express</p>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8000/api/v1';
+
+        // Contador de items
+        let itemCount = 1;
+
+        function addItem() {
+            const container = document.getElementById('itemsContainer');
+            const newItem = document.createElement('div');
+            newItem.className = 'item-row';
+            newItem.innerHTML = `
+                <div>
+                    <label>Producto</label>
+                    <input type="text" name="items[${itemCount}][name]" 
+                           placeholder="Nombre del producto" required>
+                </div>
+                <div>
+                    <label>Cantidad</label>
+                    <input type="number" name="items[${itemCount}][quantity]" 
+                           min="1" value="1" required>
+                </div>
+                <div>
+                    <label>Precio (USD)</label>
+                    <input type="number" name="items[${itemCount}][price]" 
+                           step="0.01" min="0" placeholder="19.99" required>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-secondary btn-sm" 
+                            onclick="this.parentElement.parentElement.remove()">✕</button>
+                </div>
+            `;
+            container.appendChild(newItem);
+            itemCount++;
+        }
+
+        function showAlert(message, type = 'success') {
+            const alert = document.getElementById('alert');
+            alert.textContent = message;
+            alert.className = `alert alert-${type}`;
+            alert.style.display = 'block';
+            
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 5000);
+        }
+
+        function displayResponse(data) {
+            const container = document.getElementById('responseContainer');
+            container.textContent = JSON.stringify(data, null, 2);
+            container.style.display = 'block';
+        }
+
+        // Manejar envío del formulario
+        document.getElementById('orderForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {};
+            
+            // Convertir FormData a objeto
+            for (let [key, value] of formData.entries()) {
+                if (key.includes('[')) {
+                    // Manejar arrays (items)
+                    const matches = key.match(/(\w+)\[(\d+)\]\[(\w+)\]/);
+                    if (matches) {
+                        const [, arrName, index, prop] = matches;
+                        if (!data[arrName]) data[arrName] = [];
+                        if (!data[arrName][index]) data[arrName][index] = {};
+                        if (prop === 'quantity' || prop === 'price') {
+                            data[arrName][index][prop] = parseFloat(value);
+                        } else {
+                            data[arrName][index][prop] = value;
+                        }
+                    }
+                } else {
+                    // Manejar campos simples
+                    if (key === 'total_amount') {
+                        data[key] = parseFloat(value);
+                    } else {
+                        data[key] = value;
+                    }
+                }
+            }
+            
+            // Agregar product_id basado en nombre del producto
+            data.items = data.items.map((item, index) => ({
+                ...item,
+                product_id: `PROD-${Date.now()}-${index}`
+            }));
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/orders`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showAlert('✅ Pedido creado exitosamente!', 'success');
+                    displayResponse(result);
+                } else {
+                    showAlert(`❌ Error: ${result.error || 'Error desconocido'}`, 'error');
+                    displayResponse(result);
+                }
+            } catch (error) {
+                showAlert('❌ Error de conexión con el servidor', 'error');
+                console.error('Error:', error);
+            }
+        });
+
+        async function getAllOrders() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/orders`);
+                const data = await response.json();
+                displayResponse(data);
+            } catch (error) {
+                showAlert('❌ Error al obtener pedidos', 'error');
+                console.error('Error:', error);
+            }
+        }
+
+        async function testConnection() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`);
+                const data = await response.json();
+                showAlert('✅ Conexión exitosa con la API', 'success');
+                displayResponse(data);
+            } catch (error) {
+                showAlert('❌ No se pudo conectar con la API', 'error');
+            }
+        }
+
+        function loadSampleData() {
+            const sampleData = {
+                order_id: `ORD-${Date.now()}`,
+                customer_name: "María González",
+                customer_email: "maria.gonzalez@example.com",
+                customer_phone: "+5491134567890",
+                shipping_address: "Av. Corrientes 1234",
+                shipping_city: "Buenos Aires",
+                shipping_state: "CABA",
+                shipping_zip: "C1043",
+                shipping_country: "Argentina",
+                total_amount: 149.99,
+                currency: "USD",
+                items: [
+                    {
+                        name: "Zapatillas Deportivas Premium",
+                        quantity: 1,
+                        price: 99.99
+                    },
+                    {
+                        name: "Medias Técnicas",
+                        quantity: 3,
+                        price: 16.67
+                    }
+                ]
+            };
+            
+            // Llenar el formulario con datos de ejemplo
+            Object.keys(sampleData).forEach(key => {
+                if (key !== 'items') {
+                    const element = document.querySelector(`[name="${key}"]`);
+                    if (element) element.value = sampleData[key];
+                }
+            });
+            
+            showAlert('📝 Datos de ejemplo cargados. Complete los items y envíe.', 'success');
+        }
+
+        // Probar conexión al cargar la página
+        window.onload = testConnection;
+    </script>
+</body>
+</html>
