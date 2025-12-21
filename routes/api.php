@@ -25,6 +25,10 @@ Route::prefix('v1')->group(function () {
     // Ruta para generar datos de prueba
     Route::post('/test-data/generate', function () {
         try {
+            if (config('app.simulate_factory_error')) {
+                throw new \Exception('Factory error');
+            }
+
             // Crear 5 órdenes de prueba
             Order::factory()
             ->count(5)
@@ -50,6 +54,10 @@ Route::prefix('v1')->group(function () {
     // Ruta para limpiar datos de prueba
     Route::delete('/test-data/clean', function () {
         try {
+            if (config('app.simulate_delete_error')) {
+                throw new \Exception('Simulated error for testing');
+            }
+
             $count = Order::where('order_id', 'like', 'TEST-%')->count();
             Order::where('order_id', 'like', 'TEST-%')->delete();
             

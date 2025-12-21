@@ -16,6 +16,11 @@ class OrderController extends Controller
     public function index()
     {
         try {
+
+            if (config('app.simulate_order_error')) {
+                throw new \Exception('Simulated error for testing');
+            }
+
             $orders = Order::orderBy('created_at', 'desc')->get();
             
             return response()->json([
@@ -74,6 +79,10 @@ class OrderController extends Controller
         }
 
         try {
+            if (config('app.simulate_order_error')) {
+                throw new \Exception('Simulated error for testing');
+            }
+
             $order = Order::create(array_merge(
                 $validator->validated(),
                 ['status' => 'pending']

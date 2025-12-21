@@ -26,6 +26,7 @@ cd integraciones-urbano-express
 2. **Configurar variables de entorno:**
 ```bash
 cp backend/.env.example backend/.env
+cp backend/.env.testing.example backend/.env.testing
 ```
 
 3. **Instalar dependencias de Laravel:**
@@ -50,6 +51,7 @@ php artisan db:seed --class=OrdersTableSeeder
 ```bash
 cd backend
 php artisan key:generate
+php artisan key:generate --env=testing
 ```
 
 7. **Iniciar servidor:**
@@ -188,3 +190,15 @@ json
     "deleted_count": 5,
     "remaining_orders": 10
 }
+
+**********************************************************************
+## Tests
+
+### Ejecutar todos los tests
+php artisan test
+
+### Ejecutar tests específicos
+php artisan test --filter OrderApiTest
+php artisan test --filter TestDataRoutesTest
+php artisan test --filter FrontendTest
+php artisan test --filter IntegrationTest
