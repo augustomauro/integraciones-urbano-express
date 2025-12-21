@@ -40,13 +40,19 @@ cd backend
 php artisan migrate
 ```
 
-5. **Generar key de Laravel:**
+5. **Ejecutar seeder (Opcional)**
+```bash
+cd backend
+php artisan db:seed --class=OrdersTableSeeder
+```
+
+6. **Generar key de Laravel:**
 ```bash
 cd backend
 php artisan key:generate
 ```
 
-6. **Iniciar servidor:**
+7. **Iniciar servidor:**
 ```bash
 cd backend
 php artisan serv
@@ -158,4 +164,27 @@ json
     "status": "ok",
     "timestamp": "2024-01-15T10:30:00.000000Z",
     "service": "Urbano Express Integration API"
+}
+
+### POST /api/v1/test-data/generate
+Crea 5 ordenes de prueba (con prefijo "TEST-")
+
+Response (200):
+
+json
+{
+    "message": "5 órdenes de prueba generadas exitosamente",
+    "total_orders": 15
+}
+
+### DELETE /api/v1/test-data/clean
+Elimina todas las ordenes test (con prefijo "TEST-")
+
+Response (200):
+
+json
+{
+    "message": "Datos de prueba eliminados",
+    "deleted_count": 5,
+    "remaining_orders": 10
 }

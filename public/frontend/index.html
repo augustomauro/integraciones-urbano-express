@@ -21,94 +21,146 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 15px;
         }
 
         .header {
             text-align: center;
             color: white;
-            margin-bottom: 40px;
-            padding: 20px;
+            margin-bottom: 30px;
+            padding: 20px 0;
         }
 
         .header h1 {
-            font-size: 2.5rem;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
             margin-bottom: 10px;
         }
 
         .header p {
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 2vw, 1.1rem);
             opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.5;
         }
 
         .main-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            gap: 25px;
+            margin-bottom: 40px;
         }
 
-        @media (max-width: 768px) {
+        /* Responsive: Una columna en tablet y móvil */
+        @media (max-width: 992px) {
             .main-content {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .header {
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Ajustes para móviles pequeños */
+        @media (max-width: 576px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 0 10px;
+            }
+            
+            .main-content {
+                gap: 15px;
             }
         }
 
         .card {
             background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: clamp(20px, 3vw, 30px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.2);
         }
 
         .card h2 {
             color: #333;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
             border-bottom: 2px solid #667eea;
+            font-size: clamp(1.3rem, 2.5vw, 1.5rem);
+        }
+
+        .card h3 {
+            color: #444;
+            margin: 20px 0 15px 0;
+            font-size: 1.2rem;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: #555;
             font-weight: 600;
+            font-size: 0.95rem;
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
-            padding: 12px 15px;
+            padding: 12px 14px;
             border: 2px solid #ddd;
-            border-radius: 8px;
+            border-radius: 6px;
             font-size: 16px;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
+            background: #f8f9fa;
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
             border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 12px;
+        }
+
+        /* Responsive para form-row */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
         }
 
         .items-section {
             background: #f8f9fa;
-            padding: 20px;
+            padding: 18px;
             border-radius: 8px;
             margin-top: 20px;
+            border: 1px solid #e9ecef;
         }
 
         .item-row {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
+            grid-template-columns: 2fr 1fr 1fr auto;
             gap: 10px;
             align-items: end;
             margin-bottom: 15px;
@@ -116,30 +168,83 @@
             border-bottom: 1px solid #dee2e6;
         }
 
+        /* Responsive para item-row */
+        @media (max-width: 768px) {
+            .item-row {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .item-row > div {
+                width: 100%;
+            }
+            
+            .item-row label {
+                font-size: 0.9rem;
+            }
+        }
+
         .btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 14px 28px;
+            padding: 14px 24px;
             border-radius: 8px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
         }
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            opacity: 0.95;
+        }
+
+        .btn:active {
+            transform: translateY(0);
         }
 
         .btn-secondary {
             background: #6c757d;
         }
 
+        .btn-danger {
+            background: #dc3545;
+        }
+
         .btn-sm {
             padding: 8px 16px;
             font-size: 14px;
+            width: auto;
+        }
+
+        /* Botones en línea para grupos */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .button-group .btn {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        @media (max-width: 576px) {
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .button-group .btn {
+                width: 100%;
+            }
         }
 
         .response-container {
@@ -152,6 +257,26 @@
             font-family: 'Courier New', monospace;
             font-size: 14px;
             margin-top: 20px;
+            line-height: 1.5;
+        }
+
+        /* Scrollbar personalizada */
+        .response-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .response-container::-webkit-scrollbar-track {
+            background: #2a2a2a;
+            border-radius: 4px;
+        }
+
+        .response-container::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 4px;
+        }
+
+        .response-container::-webkit-scrollbar-thumb:hover {
+            background: #764ba2;
         }
 
         .alert {
@@ -159,6 +284,18 @@
             border-radius: 8px;
             margin-bottom: 20px;
             display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .alert-success {
@@ -171,6 +308,12 @@
             background: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
         }
 
         .status-badge {
@@ -187,9 +330,121 @@
             color: #856404;
         }
 
-        .status-completed {
+        .status-processing {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-shipped {
             background: #d4edda;
             color: #155724;
+        }
+
+        .status-delivered {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: white;
+            opacity: 0.8;
+            font-size: 0.9rem;
+            padding: 20px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Mejoras para inputs en móvil */
+        @media (max-width: 768px) {
+            input, button, textarea {
+                font-size: 16px !important; /* Previene zoom en iOS */
+            }
+            
+            .card {
+                padding: 20px 15px;
+            }
+        }
+
+        /* Animación de carga */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Mejora para la sección de items */
+        .item-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Estilo para el botón de eliminar item */
+        .delete-item-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 18px;
+        }
+
+        .delete-item-btn:hover {
+            background: #c82333;
+            transform: scale(1.1);
+        }
+
+        /* Tooltip básico */
+        [data-tooltip] {
+            position: relative;
+            cursor: help;
+        }
+
+        [data-tooltip]:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1000;
+        }
+
+        /* Mejoras para la visualización en móvil */
+        .mobile-only {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-only {
+                display: block;
+            }
+            
+            .desktop-only {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -198,6 +453,9 @@
         <div class="header">
             <h1>🚚 Urbano Express</h1>
             <p>Simulador de Integración E-commerce - Sistema de Gestión de Envíos</p>
+            <p class="mobile-only" style="margin-top: 10px; font-size: 0.9rem;">
+                📱 Modo móvil activado
+            </p>
         </div>
 
         <div class="main-content">
@@ -211,7 +469,8 @@
                     <div class="form-group">
                         <label for="order_id">ID del Pedido *</label>
                         <input type="text" id="order_id" name="order_id" 
-                               placeholder="ORD-2024-001" required>
+                               placeholder="ORD-2024-001" required
+                               data-tooltip="Identificador único del pedido">
                     </div>
 
                     <div class="form-row">
@@ -284,28 +543,41 @@
                         <div id="itemsContainer">
                             <div class="item-row">
                                 <div>
-                                    <label>Producto</label>
+                                    <label>Producto *</label>
                                     <input type="text" name="items[0][name]" 
                                            placeholder="Nombre del producto" required>
                                 </div>
                                 <div>
-                                    <label>Cantidad</label>
+                                    <label>Cantidad *</label>
                                     <input type="number" name="items[0][quantity]" 
                                            min="1" value="1" required>
                                 </div>
                                 <div>
-                                    <label>Precio (USD)</label>
+                                    <label>Precio (USD) *</label>
                                     <input type="number" name="items[0][price]" 
                                            step="0.01" min="0" placeholder="19.99" required>
                                 </div>
+                                <div class="item-actions">
+                                    <button type="button" class="delete-item-btn" 
+                                            onclick="this.closest('.item-row').remove()" 
+                                            style="display: none;">✕</button>
+                                </div>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-secondary btn-sm" 
-                                onclick="addItem()">+ Agregar Item</button>
+                        <div style="margin-top: 15px; display: flex; gap: 10px;">
+                            <button type="button" class="btn btn-secondary btn-sm" 
+                                    onclick="addItem()">
+                                + Agregar Item
+                            </button>
+                            <button type="button" class="btn btn-secondary btn-sm" 
+                                    onclick="clearItems()">
+                                🗑️ Limpiar
+                            </button>
+                        </div>
                     </div>
 
-                    <div style="margin-top: 30px; text-align: center;">
-                        <button type="submit" class="btn" style="width: 100%;">
+                    <div style="margin-top: 30px;">
+                        <button type="submit" class="btn" id="submitBtn">
                             📨 Enviar Pedido a Urbano Express
                         </button>
                     </div>
@@ -318,34 +590,58 @@
                 
                 <div class="form-group">
                     <label>Respuesta JSON:</label>
-                    <div id="responseContainer" class="response-container">
+                    <div id="responseContainer" class="response-container" style="display: none;">
                         {/* La respuesta aparecerá aquí */}
                     </div>
                 </div>
 
-                <div style="margin-top: 30px;">
+                <div style="margin-top: 25px;">
                     <h3>🔍 Consultar Pedidos</h3>
-                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <div class="button-group" style="margin-top: 15px;">
                         <button class="btn" onclick="getAllOrders()">
-                            Ver Todos los Pedidos
+                            📋 Ver Todos los Pedidos
                         </button>
                         <button class="btn btn-secondary" onclick="testConnection()">
-                            Probar Conexión API
+                            🔗 Probar Conexión API
                         </button>
                     </div>
                 </div>
 
-                <div style="margin-top: 30px;">
-                    <h3>📄 Datos de Prueba</h3>
-                    <button class="btn btn-secondary" onclick="loadSampleData()">
-                        Cargar Datos de Ejemplo
-                    </button>
+                <div style="margin-top: 25px;">
+                    <h3>🧪 Datos de Prueba</h3>
+                    <div class="button-group" style="margin-top: 15px;">
+                        <button class="btn btn-secondary" onclick="loadSampleData()">
+                            📝 Cargar Ejemplo
+                        </button>
+                        <button class="btn btn-secondary" onclick="generateTestOrders()">
+                            Generar Órdenes Aleatorias
+                        </button>
+                        <button class="btn" onclick="clearTestData()" style="background: #dc3545;">
+                            Limpiar Datos de Prueba
+                        </button>
+                    </div>
+                </div>
+
+                <div style="margin-top: 25px;">
+                    <h3>⚙️ Utilidades</h3>
+                    <div class="button-group" style="margin-top: 15px;">
+                        <button class="btn btn-secondary" onclick="clearForm()">
+                            🗑️ Limpiar Formulario
+                        </button>
+                        <button class="btn btn-secondary" onclick="copyResponse()">
+                            📋 Copiar Respuesta
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div style="text-align: center; margin-top: 40px; color: white; opacity: 0.8;">
+        <div class="footer">
             <p>Challenge Técnico - Desarrollador PHP Full Stack | Integraciones Urbano Express</p>
+            <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.7;">
+                📱 <span id="screenSize">Cargando tamaño...</span> | 
+                🕐 <span id="currentTime">--:--</span>
+            </p>
         </div>
     </div>
 
@@ -355,6 +651,7 @@
         // Contador de items
         let itemCount = 1;
 
+        // Agrega nueva fila de producto
         function addItem() {
             const container = document.getElementById('itemsContainer');
             const newItem = document.createElement('div');
@@ -382,8 +679,207 @@
             `;
             container.appendChild(newItem);
             itemCount++;
+
+            // Actualizar visibilidad de botones de eliminar
+            updateDeleteButtons();
         }
 
+        // Elimina item específico
+        function removeItem(button) {
+            const itemRow = button.closest('.item-row');
+            if (itemRow) {
+                itemRow.remove();
+                // Re-indexar los items
+                reindexItems();
+            }
+        }
+
+        // Limpia todos los items excepto el primero
+        function clearItems() {
+            const items = document.querySelectorAll('#itemsContainer .item-row');
+            if (items.length <= 1) {
+                showAlert('ℹ️ Solo hay un item, no hay nada que limpiar', 'info');
+                return;
+            }
+            
+            if (!confirm('¿Estás seguro de que quieres eliminar todos los items excepto el primero?')) {
+                return;
+            }
+            
+            const container = document.getElementById('itemsContainer');
+            const firstItem = container.querySelector('.item-row:first-child');
+            
+            // Mantener solo el primer item
+            container.innerHTML = '';
+            container.appendChild(firstItem);
+            
+            // Resetear inputs del primer item
+            const inputs = firstItem.querySelectorAll('input');
+            inputs[0].value = ''; // Nombre
+            inputs[1].value = 1;  // Cantidad
+            inputs[2].value = ''; // Precio
+            
+            itemCount = 1;
+            updateDeleteButtons();
+            showAlert('✅ Items limpiados (se mantuvo el primero)', 'success');
+        }
+
+        // Re-indexa los items automáticamente
+        function reindexItems() {
+            const container = document.getElementById('itemsContainer');
+            const items = container.querySelectorAll('.item-row');
+            itemCount = items.length;
+            
+            items.forEach((item, index) => {
+                const inputs = item.querySelectorAll('input');
+                inputs[0].name = `items[${index}][name]`;
+                inputs[1].name = `items[${index}][quantity]`;
+                inputs[2].name = `items[${index}][price]`;
+            });
+        }
+
+        // Muestra/oculta botones de eliminar
+        function updateDeleteButtons() {
+            const deleteButtons = document.querySelectorAll('.delete-item-btn');
+            // Mostrar solo si hay más de un item
+            deleteButtons.forEach(btn => {
+                const totalItems = document.querySelectorAll('#itemsContainer .item-row').length;
+                btn.style.display = totalItems > 1 ? 'flex' : 'none';
+            });
+        }
+
+        // Funciones para el formulario
+
+        // Limpia completamente el formulario
+        function clearForm() {
+            if (!confirm('¿Estás seguro de que quieres limpiar todo el formulario?')) {
+                return;
+            }
+            
+            // Resetear el formulario
+            document.getElementById('orderForm').reset();
+            
+            // Limpiar items (manteniendo solo el primero)
+            clearItems();
+            
+            // Restaurar valores por defecto
+            document.getElementById('currency').value = 'USD';
+            
+            showAlert('✅ Formulario limpiado completamente', 'success');
+        }
+
+        // Copia respuesta JSON al portapapeles
+        function copyResponse() {
+            const responseContainer = document.getElementById('responseContainer');
+            if (responseContainer.style.display === 'none' || !responseContainer.textContent.trim()) {
+                showAlert('ℹ️ No hay respuesta para copiar. Primero ejecuta alguna acción.', 'info');
+                return;
+            }
+            
+            const text = responseContainer.textContent;
+            
+            // Usar la API del portapapeles moderna
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showAlert('✅ Respuesta copiada al portapapeles', 'success');
+                }).catch(err => {
+                    console.error('Error al copiar:', err);
+                    fallbackCopyText(text);
+                });
+            } else {
+                fallbackCopyText(text);
+            }
+        }
+
+        function fallbackCopyText(text) {
+            // Método de respaldo para navegadores antiguos
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showAlert('✅ Respuesta copiada al portapapeles', 'success');
+                } else {
+                    showAlert('❌ No se pudo copiar al portapapeles', 'error');
+                }
+            } catch (err) {
+                console.error('Error al copiar:', err);
+                showAlert('❌ Error al copiar: ' + err.message, 'error');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        // Carga datos de ejemplo en el formulario
+        function loadSampleData() {
+            const sampleData = {
+                order_id: `ORD-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 1000)).padStart(3, '0')}`,
+                customer_name: "María González",
+                customer_email: "maria.gonzalez@example.com",
+                customer_phone: "+5491134567890",
+                shipping_address: "Av. Corrientes 1234",
+                shipping_city: "Buenos Aires",
+                shipping_state: "CABA",
+                shipping_zip: "C1043",
+                shipping_country: "Argentina",
+                total_amount: 149.99,
+                currency: "USD"
+            };
+            
+            // Llenar el formulario con datos de ejemplo
+            Object.keys(sampleData).forEach(key => {
+                const element = document.querySelector(`[name="${key}"]`);
+                if (element) element.value = sampleData[key];
+            });
+            
+            // Agregar items de ejemplo
+            clearItems(); // Limpiar items existentes
+            
+            const sampleItems = [
+                {
+                    name: "Zapatillas Deportivas Premium",
+                    quantity: 1,
+                    price: 99.99
+                },
+                {
+                    name: "Medias Técnicas Running",
+                    quantity: 3,
+                    price: 16.67
+                }
+            ];
+            
+            // Configurar el primer item
+            var firstItem = document.querySelector('#itemsContainer .item-row:first-child');
+            if (!firstItem) {
+                addItem();
+                firstItem = document.querySelector('#itemsContainer .item-row:first-child');
+            }
+            const inputs = firstItem.querySelectorAll('input');
+            inputs[0].value = sampleItems[0].name;
+            inputs[1].value = sampleItems[0].quantity;
+            inputs[2].value = sampleItems[0].price;
+            
+            // Agregar el segundo item
+            addItem();
+            const secondItem = document.querySelector('#itemsContainer .item-row:last-child');
+            const secondInputs = secondItem.querySelectorAll('input');
+            secondInputs[0].value = sampleItems[1].name;
+            secondInputs[1].value = sampleItems[1].quantity;
+            secondInputs[2].value = sampleItems[1].price;
+            
+            showAlert('📝 Datos de ejemplo cargados. Revisa y modifica si es necesario.', 'success');
+        }
+
+        // Funciones de utilidad
+
+        // Muestra notificaciones con feedback táctil en móvil
         function showAlert(message, type = 'success') {
             const alert = document.getElementById('alert');
             alert.textContent = message;
@@ -395,15 +891,44 @@
             }, 5000);
         }
 
+        // Muestra respuestas formateadas
         function displayResponse(data) {
             const container = document.getElementById('responseContainer');
-            container.textContent = JSON.stringify(data, null, 2);
+            
+            // Formatear el JSON con colores si es posible
+            try {
+                const formatted = JSON.stringify(data, null, 2);
+                
+                // Sintaxis básica de colores para JSON
+                const colored = formatted
+                    .replace(/(".*?"):/g, '<span style="color: #569CD6;">$1</span>:')
+                    .replace(/:\s*(".*?")/g, ': <span style="color: #CE9178;">$1</span>')
+                    .replace(/\b(true|false|null)\b/g, '<span style="color: #569CD6;">$1</span>')
+                    .replace(/\b(\d+\.?\d*)\b/g, '<span style="color: #B5CEA8;">$1</span>');
+                
+                container.innerHTML = colored;
+            } catch (e) {
+                container.textContent = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+            }
+            
             container.style.display = 'block';
+            
+            // Auto-scroll en móvil para mostrar la respuesta
+            if (window.innerWidth < 768) {
+                container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
         }
 
         // Manejar envío del formulario
         document.getElementById('orderForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+
+            const submitBtn = document.querySelector('#submitBtn');
+            const originalText = submitBtn.innerHTML;
+            
+            // Mostrar loading
+            submitBtn.innerHTML = '<span class="loading"></span> Procesando...';
+            submitBtn.disabled = true;
             
             const formData = new FormData(this);
             const data = {};
@@ -453,78 +978,159 @@
                 if (response.ok) {
                     showAlert('✅ Pedido creado exitosamente!', 'success');
                     displayResponse(result);
+                    // Limpiar el formulario después de éxito
+                    setTimeout(() => clearForm(), 2000);
                 } else {
                     showAlert(`❌ Error: ${result.error || 'Error desconocido'}`, 'error');
+                    console.error('Error:', error);
+                    displayResponse({ error: error.message });
+                }
+            } catch (error) {
+                showAlert('❌ Error de conexión con el servidor', 'error');
+                console.error('Error:', error);
+            }
+
+            // Restaurar botón
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        });
+
+        // Funciones de conexión con la API
+
+        // Obtiene todos los pedidos
+        async function getAllOrders() {
+            try {
+                showAlert('⏳ Obteniendo pedidos...', 'info');
+                const response = await fetch(`${API_BASE_URL}/orders`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showAlert(`✅ Se encontraron ${data.count || data.data?.length || 0} pedidos`, 'success');
+                    displayResponse(data);
+                } else {
+                    showAlert(`❌ Error: ${data.error || 'Error desconocido'}`, 'error');
+                    displayResponse(data);
+                }
+            } catch (error) {
+                showAlert('❌ Error de conexión con el servidor', 'error');
+                console.error('Error:', error);
+                displayResponse({ error: error.message });
+            }
+        }
+
+        // Prueba conexión con backend
+        async function testConnection() {
+            try {
+                showAlert('⏳ Probando conexión...', 'info');
+                const response = await fetch(`${API_BASE_URL}/health`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showAlert('✅ Conexión exitosa con la API', 'success');
+                    displayResponse(data);
+                } else {
+                    showAlert('❌ La API respondió con error', 'error');
+                    displayResponse(data);
+                }
+            } catch (error) {
+                showAlert('❌ No se pudo conectar con la API', 'error');
+                console.error('Error:', error);
+                displayResponse({ error: error.message, tip: 'Verifica que el backend esté corriendo en http://localhost:8000' });
+            }
+        }
+
+        // Genera datos de prueba
+        async function generateTestOrders() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/test-data/generate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showAlert(`✅ ${result.message}`, 'success');
+                    displayResponse(result);
+                    // Actualizar la lista de pedidos
+                    getAllOrders();
+                } else {
+                    showAlert(`❌ Error: ${result.error}`, 'error');
                     displayResponse(result);
                 }
             } catch (error) {
                 showAlert('❌ Error de conexión con el servidor', 'error');
                 console.error('Error:', error);
             }
-        });
+        }
 
-        async function getAllOrders() {
+        async function clearTestData() {
+            if (!confirm('¿Estás seguro de que quieres eliminar todos los datos de prueba? Esto no se puede deshacer.')) {
+                return;
+            }
+            
             try {
-                const response = await fetch(`${API_BASE_URL}/orders`);
-                const data = await response.json();
-                displayResponse(data);
+                const response = await fetch(`${API_BASE_URL}/test-data/clean`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showAlert(`✅ ${result.message} (Eliminados: ${result.deleted_count})`, 'success');
+                    displayResponse(result);
+                    // Actualizar la lista de pedidos
+                    getAllOrders();
+                } else {
+                    showAlert(`❌ Error: ${result.error}`, 'error');
+                    displayResponse(result);
+                }
             } catch (error) {
-                showAlert('❌ Error al obtener pedidos', 'error');
+                showAlert('❌ Error de conexión con el servidor', 'error');
                 console.error('Error:', error);
             }
         }
 
-        async function testConnection() {
-            try {
-                const response = await fetch(`${API_BASE_URL}/health`);
-                const data = await response.json();
-                showAlert('✅ Conexión exitosa con la API', 'success');
-                displayResponse(data);
-            } catch (error) {
-                showAlert('❌ No se pudo conectar con la API', 'error');
-            }
+        // Detectar y mostrar tamaño de pantalla
+        function updateScreenSize() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            let size = 'Desktop';
+            
+            if (width < 576) size = 'Móvil pequeño';
+            else if (width < 768) size = 'Móvil';
+            else if (width < 992) size = 'Tablet';
+            else if (width < 1200) size = 'Desktop';
+            
+            document.getElementById('screenSize').textContent = 
+                `${size} (${width}×${height})`;
         }
 
-        function loadSampleData() {
-            const sampleData = {
-                order_id: `ORD-${Date.now()}`,
-                customer_name: "María González",
-                customer_email: "maria.gonzalez@example.com",
-                customer_phone: "+5491134567890",
-                shipping_address: "Av. Corrientes 1234",
-                shipping_city: "Buenos Aires",
-                shipping_state: "CABA",
-                shipping_zip: "C1043",
-                shipping_country: "Argentina",
-                total_amount: 149.99,
-                currency: "USD",
-                items: [
-                    {
-                        name: "Zapatillas Deportivas Premium",
-                        quantity: 1,
-                        price: 99.99
-                    },
-                    {
-                        name: "Medias Técnicas",
-                        quantity: 3,
-                        price: 16.67
-                    }
-                ]
-            };
-            
-            // Llenar el formulario con datos de ejemplo
-            Object.keys(sampleData).forEach(key => {
-                if (key !== 'items') {
-                    const element = document.querySelector(`[name="${key}"]`);
-                    if (element) element.value = sampleData[key];
-                }
-            });
-            
-            showAlert('📝 Datos de ejemplo cargados. Complete los items y envíe.', 'success');
+        // Actualizar hora actual
+        function updateCurrentTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = 
+                now.toLocaleTimeString('es-AR');
         }
+
+        // Actualizar cada minuto
+        setInterval(updateCurrentTime, 60000);
+        
+        // Inicializar
+        window.addEventListener('load', () => {
+            updateScreenSize();
+            updateCurrentTime();
+        });
+        
+        // Actualizar al cambiar tamaño
+        window.addEventListener('resize', updateScreenSize);
 
         // Probar conexión al cargar la página
         window.onload = testConnection;
     </script>
 </body>
-</html>
