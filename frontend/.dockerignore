@@ -1,3 +1,0 @@
-# Ignora node_modules para que no se copien al contenedor
-node_modules/
-npm-debug.log

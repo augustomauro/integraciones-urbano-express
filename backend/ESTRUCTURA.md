@@ -13,10 +13,6 @@ integraciones-urbano-express/
 │   │   └── web.php
 │   └── .env
 │
-│── docker-compose.yml
-│── iniciar.bat
-│── iniciar.ps1
-│── iniciar.sh
 │── ESRTUCTURA.md
 │── README.md
 │
