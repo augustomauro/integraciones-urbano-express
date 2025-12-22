@@ -1,0 +1,17 @@
+services:
+  laravel-api:
+    build: ./backend
+    container_name: urbano_api
+    ports:
+      - "8000:8000"  # PHP artisan serve
+    volumes:
+      - ./backend:/app
+      - ./backend/database/database.sqlite:/app/database/database.sqlite
+
+  frontend:
+    image: nginx:alpine
+    container_name: urbano_frontend
+    ports:
+      - "8080:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro

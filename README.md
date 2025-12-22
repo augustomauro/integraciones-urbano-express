@@ -8,14 +8,14 @@ Sistema de integración para plataformas e-commerce con el sistema interno de ge
 ### 🏗️ Arquitectura del Proyecto
 integraciones-urbano-express/
 ├── backend/ # API Laravel
-├── backend/public/frontend/ # Interfaz web HTML/JS
+├── frontend/ # Interfaz web HTML/JS
 └── sqlite/ # Scripts de base de datos
 
 ### 📋 Requisitos Previos
 - PHP v8.4 o superior (Corre con Laravel v12)
 - Git
 
-### 🚀 Instalación y Ejecución
+### 🚀 Instalación y Ejecución (No-Docker)
 
 1. **Clonar el repositorio:**
 ```bash
@@ -64,6 +64,154 @@ php artisan serv
 Servicio	URL	Descripción
 API Backend	http://localhost:8000/api/v1/	API REST Laravel
 Frontend	http://localhost:8000	Interfaz web
+
+**********************************************************************
+## Tests (No-Docker)
+
+***CMD/Powershell***
+```bash
+### Ejecutar todos los tests
+php artisan test
+
+### Ejecutar tests específicos
+php artisan test --filter OrderApiTest
+php artisan test --filter TestDataRoutesTest
+php artisan test --filter IntegrationTest
+php artisan test --filter FrontendFilenTest
+```
+
+**********************************************************************
+### 🐳 Dockerización
+
+El proyecto está completamente dockerizado y listo para ejecutar en cualquier entorno.
+
+### Requisitos Previos
+- Docker 20.10+
+- Docker Compose 2.0+
+
+## Inicio Rápido
+
+***WSL/Linux/Mac***
+```bash
+# Navegar al proyecto
+/mnt/c/ruta/a/integraciones-urbano-express
+
+# Usar script de inicialización
+./init.sh
+```
+
+***PowerShell***
+```bash
+# Navegar al proyecto
+cd C:\ruta\a\integraciones-urbano-express
+
+# Dar permisos (solo primera vez)
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+
+# Ejecutar el script
+.\init.ps1
+
+# O si se desea saltar la reconstrucción (para desarrollo rápido)
+.\init.ps1 -SkipBuild
+```
+
+***CMD***
+```bash
+# Navegar al proyecto
+cd C:\ruta\a\integraciones-urbano-express
+
+# Ejecutar el script
+init.bat
+```
+
+**********************************************************************
+## Comandos Útiles (Docker)
+
+### Construir/Reconstruir
+docker-compose build --no-cache
+
+### Iniciar
+docker-compose up -d
+
+### Probar la API
+curl http://localhost:8000/api/v1/health
+
+### Ver logs
+docker-compose logs
+
+### Detener todo
+docker-compose down
+
+**********************************************************************
+## Makefile (necesita tener instalado make en linux)
+
+```bash
+### Ver todos los comandos disponibles
+make help
+
+### Construir imágenes
+make buildmake logs
+
+### Iniciar contenedores
+make up
+
+### Detener contenedores
+make down
+
+### Ver logs
+make logs
+
+### Acceder al shell del backend
+make bash-backend
+
+### Ejecutar tests
+make test
+
+### Generar clave de aplicación
+make key-generate
+
+### Ejecutar migraciones
+make migrate
+
+### Ejecutar seeders
+make seed
+
+### Limpiar cache
+make clear-cache
+```
+
+## 🌐 Servicios Disponibles
+Servicio	URL	Descripción
+API Backend	http://localhost:8000/api/v1/	API REST Laravel
+Frontend	http://localhost:8080	Interfaz web
+
+
+### Estructura contenedores:
+
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Frontend  │     │  PHP serv   │     │   Backend   │
+│   (8080)    │◄────┤   (8000)    │◄────┤  (PHP-FPM)  │
+└─────────────┘     └─────────────┘     └─────────────┘
+                                           │
+                                    ┌──────┴──────┐
+                                    │   SQLite    │
+                                    │  (archivo)  │
+                                    └─────────────┘
+
+**********************************************************************
+## Tests (Docker)
+
+***WSL/Linux/MAC/CMD/Powershell***
+```bash
+### Ejecutar todos los tests
+docker exec urbano_api php artisan test
+
+### Ejecutar tests específicos
+docker exec urbano_api php artisan test --filter OrderApiTest
+docker exec urbano_api php artisan test --filter TestDataRoutesTest
+docker exec urbano_api php artisan test --filter IntegrationTest
+docker exec urbano_api php artisan test --filter FrontendFilenTest
+```
 
 **********************************************************************
 ## 📡 Endpoints de la API
@@ -190,15 +338,3 @@ json
     "deleted_count": 5,
     "remaining_orders": 10
 }
-
-**********************************************************************
-## Tests
-
-### Ejecutar todos los tests
-php artisan test
-
-### Ejecutar tests específicos
-php artisan test --filter OrderApiTest
-php artisan test --filter TestDataRoutesTest
-php artisan test --filter FrontendTest
-php artisan test --filter IntegrationTest

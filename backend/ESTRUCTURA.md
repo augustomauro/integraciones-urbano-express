@@ -7,11 +7,18 @@ integraciones-urbano-express/
 │   ├── database/
 │   │   └── migrations/
 │   ├── public/
-│   │   └── frontend/
-│   │       └── index.html
+│   │   └── index.php
 │   ├── routes/
 │   │   └── api.php
 │   │   └── web.php
-│   ├── .env
+│   └── .env
+│
+│── docker-compose.yml
+│── iniciar.bat
+│── iniciar.ps1
+│── iniciar.sh
 │── ESRTUCTURA.md
-└── README.md
+│── README.md
+│
+└── frontend/
+    └── index.html

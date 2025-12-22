@@ -646,7 +646,14 @@
     </div>
 
     <script>
-        const API_BASE_URL = 'http://localhost:8000/api/v1';
+        const API_BASE_URL = (() => {
+            // Si estamos en desarrollo (puerto 8080)
+            if (window.location.port === '8080' || window.location.hostname === 'localhost') {
+                return 'http://localhost:8000/api/v1';
+            }
+            // Para producción (mismo dominio)
+            return '/api/v1';
+        })();
 
         // Contador de items
         let itemCount = 1;

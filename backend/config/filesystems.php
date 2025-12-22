@@ -47,6 +47,11 @@ return [
             'report' => false,
         ],
 
+        'external_html' => [
+            'driver' => 'local',
+            'root' => base_path('../frontend'),
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
