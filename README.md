@@ -92,6 +92,48 @@ php artisan test --filter FrontendFilenTest
 ```
 
 **********************************************************************
+### Dockerizacion
+
+/integraciones-urbano-express/backend
+
+```bash
+# Construir contenedores
+## CMD/Powershell
+docker-compose build
+## WSL/Linux/Mac
+./vendor/bin/sail build
+
+# Reconstruir contenedores
+## CMD/Powershell
+docker-compose build --no-cache
+## WSL/Linux/Mac
+./vendor/bin/sail build --no-cache
+
+# Montar contenedores
+## CMD/Powershell
+docker-compose up -d
+## WSL/Linux/Mac
+./vendor/bin/sail up -d
+
+# Desmontar contendores
+## CMD/Powershell
+docker-composer down
+## WSL/Linux/Mac
+./vendor/bin/sail down
+
+# Correr comandos artisan dentro del contenedor
+## CMD/Powershell
+docker exec -it backend-laravel.test php artisan migrate:status
+## WSL/Linux/Mac
+./vendor/bin/sail php artisan migrate:status
+```
+
+## 🌐 Servicios Disponibles
+Servicio	URL	Descripción
+API Backend	http://localhost:8000/api/v1/	API REST Laravel
+Frontend	http://localhost:8080	Interfaz web
+
+**********************************************************************
 ## 📡 Endpoints de la API
 
 ### POST /api/v1/orders
