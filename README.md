@@ -92,7 +92,7 @@ php artisan test --filter FrontendFilenTest
 ```
 
 **********************************************************************
-### Dockerizacion
+## Dockerizacion
 
 /integraciones-urbano-express/backend
 
@@ -141,7 +141,7 @@ Crear un nuevo pedido
 
 Request:
 
-json
+```json
 {
     "order_id": "ORD-2024-001",
     "customer_name": "Juan Pérez",
@@ -163,9 +163,10 @@ json
         }
     ]
 }
+```
 Response (201):
 
-json
+```json
 {
     "message": "Order created successfully",
     "data": {
@@ -176,13 +177,14 @@ json
         "created_at": "2024-01-15T10:30:00.000000Z"
     }
 }
+```
 
 ### GET /api/v1/orders
 Obtener todos los pedidos
 
 Response (200):
 
-json
+```json
 {
     "data": [
         {
@@ -196,13 +198,14 @@ json
     ],
     "count": 1
 }
+```
 
 ### GET /api/v1/orders/{id}
 Obtener un pedido específico
 
 Response (200):
 
-json
+```json
 {
     "data": {
         "id": 1,
@@ -223,38 +226,42 @@ json
         "created_at": "2024-01-15T10:30:00.000000Z"
     }
 }
+```
 
 ### GET /api/v1/health
 Health check del servicio
 
 Response (200):
 
-json
+```json
 {
     "status": "ok",
     "timestamp": "2024-01-15T10:30:00.000000Z",
     "service": "Urbano Express Integration API"
 }
+```
 
 ### POST /api/v1/test-data/generate
 Crea 5 ordenes de prueba (con prefijo "TEST-")
 
 Response (200):
 
-json
+```json
 {
     "message": "5 órdenes de prueba generadas exitosamente",
     "total_orders": 15
 }
+```
 
 ### DELETE /api/v1/test-data/clean
 Elimina todas las ordenes test (con prefijo "TEST-")
 
 Response (200):
 
-json
+```json
 {
     "message": "Datos de prueba eliminados",
     "deleted_count": 5,
     "remaining_orders": 10
 }
+```
